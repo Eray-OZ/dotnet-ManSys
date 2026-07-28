@@ -7,5 +7,5 @@ public class Coverage
     public string Name { get; set; } = string.Empty;
     public decimal? Limit { get; set; }
     public Guid QuoteId { get; set; }
-    public required Quote Quote { get; set; } // Navigation Property
+    public Quote? Quote { get; set; } // Navigation Property
 }

@@ -1,5 +1,6 @@
-﻿using api.DTOs;
-using System.Net.Http.Json;
+﻿using api.Data;
+using api.DTOs;
+using api.Mappers;
 namespace api.Services;
 
 public class QuoteService : IQuoteService
@@ -7,13 +8,15 @@ public class QuoteService : IQuoteService
 
 
     private readonly IHttpClientFactory _clientFactory;
-    public QuoteService(IHttpClientFactory clientFactory)
+    private readonly AppDbContext _context;
+    public QuoteService(IHttpClientFactory clientFactory, AppDbContext context)
     {
         _clientFactory = clientFactory;
+        _context = context;
     }
 
 
-    public async Task<QuoteResponseDto> GetBestQuoteAsync()
+    public async Task<QuoteResponseDto> CreateBestQuoteAsync()
     {
         var requestBody = new { };
 
@@ -47,6 +50,9 @@ public class QuoteService : IQuoteService
         var bestQuote = successfulQuotes
         .OrderBy(q => q!.QuoteDetail.TotalPremium)
         .First()!;
+        
+        await _context.Quotes.AddAsync(bestQuote.ToQuoteFromQuoteResponseDto());
+        await _context.SaveChangesAsync();
 
         return bestQuote;
     }

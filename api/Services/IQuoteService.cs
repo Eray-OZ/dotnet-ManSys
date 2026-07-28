@@ -4,5 +4,5 @@ namespace api.Services;
 
 public interface IQuoteService
 {
-    public Task<QuoteResponseDto> GetBestQuoteAsync();
+    public Task<QuoteResponseDto> CreateBestQuoteAsync();
 }
