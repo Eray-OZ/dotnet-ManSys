@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Polly;
 using Polly.Extensions.Http;
+using api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -53,6 +54,9 @@ builder.Services.AddHttpClient("UnityCasco", client =>
 })
 .AddPolicyHandler(GetRetryPolicy());
 
+
+
+builder.Services.AddScoped<IQuoteService, QuoteService>();
 
 
 var app = builder.Build();
